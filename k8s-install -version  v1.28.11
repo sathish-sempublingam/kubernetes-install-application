@@ -127,3 +127,9 @@ kubectl exec -it nginx-pods /bin/sh
 #apt update
 
 ufw disable --> check
+
+
+----------docker install master---------------------
+
+sudo apt update
+sudo apt install docker-ce
