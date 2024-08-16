@@ -1,0 +1,49 @@
+**************Do all the things in Master Node***************
+
+1). create dir for prometheus and grafana 
+
+2). create pv.yaml for promo and grafana
+
+3). create namesapce as monitoring (kubectl create ns monitoring)
+
+4). helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+
+6). helm install prometheus prometheus-community/prometheus \
+--namespace monitoring \
+--set alertmanager.persistentVolume.storageClass="standard" \
+--set server.persistentVolume.storageClass="standard"
+
+7). apply pv.yaml file and delete the pvc file, its creating when apply the pv file 
+(slave1 for promo and slave2 for grafana)
+
+8) apply pvc.yaml using the same name when i delete the pvc file 
+
+9). in grafana dir apply the pv file same as prometheus
+
+10). create grafana.yaml file  
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.monitoring.svc.cluster.local
+      access: proxy
+      isDefault: true
+
+11). apply pv file and delete the pvc file and add the pvc file as same name when i delete the pvc
+
+12). helm install grafana grafana/grafana \
+    --namespace monitoring \
+    --set persistence.storageClassName="standard" \
+    --set persistence.enabled=true \
+    --set adminPassword='test123' \
+    --values /home/ubuntu/grafana/grafana.yaml \
+    --set service.type=Nodeport
+
+13). finally see the service file 
+      (kubectl get svc -n monitoring)
+
+14). Promthus-grafana-monitoring 11802,1860,17375----> grafana no
