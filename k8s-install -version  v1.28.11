@@ -116,6 +116,7 @@ kubeadm join 166.0.242.10:6443 --token 041tu2.habuutew3r9nxujb \
 
 kubectl get node
 kubectl get pods -n kube-system
+kubelet --version    -----> check to version k8s
 
 *************deploye applicatin***************************
 
